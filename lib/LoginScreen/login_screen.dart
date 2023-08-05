@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../SignUpScreen/sing_up_screen.dart';
-import '../custom_text_fild.dart';
+import '../custom_textfield.dart';
 import 'forgot_password_dialog.dart';
 
 abstract class LoginEvent {}
@@ -100,6 +100,9 @@ class LoginScreen extends StatelessWidget {
                         label: 'Email',
                         controller: TextEditingController(text: state.email),
                         icon: Icons.email_outlined,
+                        onChanged: (value) {
+                          context.read<LoginBloc>().add(EmailChanged(value));
+                        },
                       ),
                     );
                   },
@@ -115,6 +118,9 @@ class LoginScreen extends StatelessWidget {
                         label: 'Password',
                         controller: TextEditingController(text: state.password),
                         icon: Icons.lock_outline_rounded,
+                        onChanged: (value) {
+                          context.read<LoginBloc>().add(PasswordChanged(value));
+                        },
                       ),
                     );
                   },
@@ -160,7 +166,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 )
