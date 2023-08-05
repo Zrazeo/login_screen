@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
         create: (context) => LoginBloc(),
         child: const LoginScreen(),
       ),
-      // Add other routes and configurations for your MaterialApp if needed
     );
   }
 }

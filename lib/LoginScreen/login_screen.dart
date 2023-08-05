@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../SignUpScreen/sing_up_screen.dart';
+import '../custom_text_fild.dart';
 import 'forgot_password_dialog.dart';
 
 abstract class LoginEvent {}
@@ -95,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                       onTap: () => {},
                       splashColor: Colors.grey,
                       borderRadius: BorderRadius.circular(8),
-                      child: customTextField(
+                      child: CustomTextField(
                         label: 'Email',
                         controller: TextEditingController(text: state.email),
                         icon: Icons.email_outlined,
@@ -110,7 +111,7 @@ class LoginScreen extends StatelessWidget {
                       onTap: () => {},
                       splashColor: Colors.grey,
                       borderRadius: BorderRadius.circular(8),
-                      child: customTextField(
+                      child: CustomTextField(
                         label: 'Password',
                         controller: TextEditingController(text: state.password),
                         icon: Icons.lock_outline_rounded,
@@ -197,53 +198,6 @@ class LoginScreen extends StatelessWidget {
               )
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget customTextField({
-    required String label,
-    required TextEditingController controller,
-    required IconData icon,
-  }) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          prefixIcon: Icon(
-            icon,
-            color: Colors.grey,
-          ),
-          labelStyle: const TextStyle(
-            color: Colors.grey,
-          ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          contentPadding: const EdgeInsets.only(
-            left: 12,
-            right: 12,
-            top: 16,
-            bottom: 16,
-          ),
-          isCollapsed: true,
-          floatingLabelBehavior: FloatingLabelBehavior.never,
         ),
       ),
     );
