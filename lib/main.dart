@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
         BlocProvider<SignUpBloc>(create: (_) => SignUpBloc()),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         title: 'Your App',
         home: LoginScreen(),
       ),
