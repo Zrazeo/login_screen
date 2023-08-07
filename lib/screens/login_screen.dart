@@ -1,73 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../SignUpScreen/sing_up_screen.dart';
-import '../custom_textfield.dart';
-import 'forgot_password_dialog.dart';
-
-abstract class LoginEvent {}
-
-class EmailChanged extends LoginEvent {
-  final String email;
-  EmailChanged(this.email);
-}
-
-class PasswordChanged extends LoginEvent {
-  final String password;
-  PasswordChanged(this.password);
-}
-
-class LoginState {
-  final String email;
-  final String password;
-  LoginState(this.email, this.password);
-}
-
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginState('', ''));
-
-  Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    if (event is EmailChanged) {
-      yield LoginState(event.email, state.password);
-    } else if (event is PasswordChanged) {
-      yield LoginState(state.email, event.password);
-    }
-  }
-}
+import '../blocs/login_bloc.dart';
+import '../components/custom_textfield.dart';
+import '../dialogs/forgot_password_dialog.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
-  void _showForgotPasswordDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return const ForgotPasswordDialog();
-      },
-    );
-  }
-
-  void _navigateToSignUpScreen(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const SignUpScreen(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 70),
                 Column(
@@ -83,45 +31,36 @@ class LoginScreen extends StatelessWidget {
                     Text(
                       'Please sign in to continue.',
                       style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 56),
                 BlocBuilder<LoginBloc, LoginState>(
                   builder: (context, state) {
-                    return InkWell(
-                      onTap: () => {},
-                      splashColor: Colors.grey,
-                      borderRadius: BorderRadius.circular(8),
-                      child: CustomTextField(
-                        label: 'Email',
-                        controller: TextEditingController(text: state.email),
-                        icon: Icons.email_outlined,
-                        onChanged: (value) {
-                          context.read<LoginBloc>().add(EmailChanged(value));
-                        },
-                      ),
+                    return CustomTextField(
+                      label: 'Email',
+                      controller: TextEditingController(text: state.email),
+                      icon: Icons.email_outlined,
+                      onChanged: (value) {
+                        context.read<LoginBloc>().add(EmailChanged(value));
+                      },
                     );
                   },
                 ),
                 const SizedBox(height: 16),
                 BlocBuilder<LoginBloc, LoginState>(
                   builder: (context, state) {
-                    return InkWell(
-                      onTap: () => {},
-                      splashColor: Colors.grey,
-                      borderRadius: BorderRadius.circular(8),
-                      child: CustomTextField(
-                        label: 'Password',
-                        controller: TextEditingController(text: state.password),
-                        icon: Icons.lock_outline_rounded,
-                        onChanged: (value) {
-                          context.read<LoginBloc>().add(PasswordChanged(value));
-                        },
-                      ),
+                    return CustomTextField(
+                      label: 'Password',
+                      controller: TextEditingController(text: state.password),
+                      icon: Icons.lock_outline_rounded,
+                      onChanged: (value) {
+                        context.read<LoginBloc>().add(PasswordChanged(value));
+                      },
                     );
                   },
                 ),
@@ -169,7 +108,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -208,4 +147,21 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showForgotPasswordDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return const ForgotPasswordDialog();
+    },
+  );
+}
+
+void _navigateToSignUpScreen(BuildContext context) {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => const SignUpScreen(),
+    ),
+  );
 }

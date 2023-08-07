@@ -1,99 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../custom_textfield.dart';
+import 'package:login_screen/screens/login_screen.dart';
 
-abstract class SignUpEvent {}
-
-class FullNameChanged extends SignUpEvent {
-  final String fullName;
-  FullNameChanged(this.fullName);
-}
-
-class SignUpEmailChanged extends SignUpEvent {
-  final String email;
-  SignUpEmailChanged(this.email);
-}
-
-class SignUpPasswordChanged extends SignUpEvent {
-  final String password;
-  SignUpPasswordChanged(this.password);
-}
-
-class SignUpConfirmPasswordChanged extends SignUpEvent {
-  final String confirmPassword;
-  SignUpConfirmPasswordChanged(this.confirmPassword);
-}
-
-class SignUpState {
-  final String fullName;
-  final String email;
-  final String password;
-  final String confirmPassword;
-
-  SignUpState({
-    required this.fullName,
-    required this.email,
-    required this.password,
-    required this.confirmPassword,
-  });
-
-  SignUpState copyWith({
-    String? fullName,
-    String? email,
-    String? password,
-    String? confirmPassword,
-  }) {
-    return SignUpState(
-      fullName: fullName ?? this.fullName,
-      email: email ?? this.email,
-      password: password ?? this.password,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
-    );
-  }
-}
-
-class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  SignUpBloc()
-      : super(SignUpState(
-          fullName: '',
-          email: '',
-          password: '',
-          confirmPassword: '',
-        ));
-
-  Stream<SignUpState> mapEventToState(SignUpEvent event) async* {
-    if (event is FullNameChanged) {
-      yield state.copyWith(fullName: event.fullName);
-    } else if (event is SignUpEmailChanged) {
-      yield state.copyWith(email: event.email);
-    } else if (event is SignUpPasswordChanged) {
-      yield state.copyWith(password: event.password);
-    } else if (event is SignUpConfirmPasswordChanged) {
-      yield state.copyWith(confirmPassword: event.confirmPassword);
-    }
-  }
-}
+import '../blocs/signup_bloc.dart';
+import '../components/custom_textfield.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key});
-
-  void _navigateToLoginScreen(BuildContext context) {
-    Navigator.of(context).pop();
-  }
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 70),
                 Column(
@@ -248,4 +170,12 @@ class SignUpScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void _navigateToLoginScreen(BuildContext context) {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => const LoginScreen(),
+    ),
+  );
 }
